@@ -9,7 +9,7 @@
     <title>todos</title>
 </head>
 
-<body>
+<body onload="init()">
     <table>
         <thead>
             <tr>
@@ -18,55 +18,15 @@
                 <th>Actions</th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
-                <td>The Adventures of Lori lpsi</td>
-                <td>300</td>
-                <td>
-                    <button>read</button>
-                </td>
-                <td>
-                    <button>update</button>
-                </td>
-                <td>
-                    <button>delete</button>
-                </td>
-            </tr>
-            <tr>
-                <td>Zobra The Geek </td>
-                <td>120</td>
-                <td>
-                    <button>read</button>
-                </td>
-                <td>
-                    <button>update</button>
-                </td>
-                <td>
-                    <button>delete</button>
-                </td>
-            </tr>
-            <tr>
-                <td>World Atlas</td>
-                <td>120</td>
-                <td>
-                    <button>read</button>
-                </td>
-                <td>
-                    <button>update</button>
-                </td>
-                <td>
-                    <button>delete</button>
-                </td>
-            </tr>
+        <tbody class="table-body">
+
         </tbody>
     </table>
-
-
-
-    <script src="js/services/util.service.js"></script>
-    <script src="js/services/storage.service.js"></script>
-    <script src="js/services/todo.service.js"></script>
-    <script src="js/todo.controller.js"></script>
+    
+    <script src="services/util.service.js"></script>
+    <script src="services/storage.service.js"></script>
+    <script src="services/bookshop.service.js"></script>
+    <script src="bookshop.controller.js"></script>
 </body>
 
 

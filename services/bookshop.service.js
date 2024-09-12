@@ -1,16 +1,16 @@
 'use strict'
-var gModal = [{
-    id: bg4J78,
+var gBooks = [{
+    id: 'bg4J78',
     title: 'The adventures of Lori Ipsi',
     price: 300,
     imgUrl: 'lori-ipsi.jpg'
 },{
-    id: bg4J79,
+    id: 'bg4J79',
     title: 'Zobra The Geek',
-    price: 120,
+    price: 87,
     imgUrl: ''
 },{
-    id: bg4J80,
+    id: 'bg4J80',
     title: 'World Atlas',
     price: 120,
     imgUrl: ''
@@ -18,5 +18,5 @@ var gModal = [{
 
 function getBooks(filterBy) {      
     if (!filterBy) return gBooks
-    return gTodos
+    return gBooks
 }
