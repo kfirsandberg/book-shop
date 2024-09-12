@@ -1,55 +1,59 @@
 'use strict'
-var gBooks = [{
-    id: 'bg4J78',
-    title: 'The adventures of Lori Ipsi',
-    price: 300,
-    imgUrl: 'lori-ipsi.jpg'
-},{
-    id: 'bg4J79',
-    title: 'Zobra The Geek',
-    price: 87,
-    imgUrl: ''
-},{
-    id: 'bg4J80',
-    title: 'World Atlas',
-    price: 120,
-    imgUrl: ''
-},]
+const BOOKSHOP_KEY = 'bookshop'
 
-function getBooks(filterBy) {      
+var gBooks = []
+_createBooks()
+
+function getBooks(filterBy) {
     // if (!filterBy) return gBooks
     return gBooks
 }
 
-function removeBook(bookId){
+function removeBook(bookId) {
     const idx = gBooks.findIndex(book => book.id === bookId)
     gBooks.splice(idx, 1)
-    
+    _saveBooks()
 }
 
-function updatePrice(price, bookId){
+function updatePrice(price, bookId) {
     const idx = gBooks.findIndex(book => book.id === bookId)
     gBooks[idx].price = price
-
+    _saveBooks()
 }
 
-function addNewBook(title,price){
-    const newBook = makeNewBook(title,price)
+function addNewBook(title, price) {
+    const newBook = _createNewBook(title, price)
     gBooks.push(newBook)
-
+    _saveBooks()
 }
 
-function makeNewBook(title,price){
+function getBookDetails(bookId) {
+    var book = gBooks.find(book => book.id === bookId)
+    book = JSON.stringify(book, null, 2)
+    return book
+}
+
+function _createNewBook(title, price) {
     return {
         id: makeid(),
         title,
-        price
+        price,
+        imgUrl: 'lori-ipsi.jpg'
     }
 }
 
-function getBookDetails(bookId){
-    var book = gBooks.find(book => book.id === bookId)
-    book = JSON.stringify(book,null,2)
-    return book
+
+function _createBooks() {
+    gBooks = loadFromStorage(BOOKSHOP_KEY)
+    if (gBooks && gBooks.length !== 0) return
+    gBooks = []
+    gBooks.push(_createNewBook('The adventures of Lori Ipsi', 300))
+    gBooks.push(_createNewBook('Zobra The Geek', 87))
+    gBooks.push(_createNewBook('World Atlas', 120))
+    _saveBooks()
+}
+
+function _saveBooks() {
+    saveToStorage(BOOKSHOP_KEY, gBooks)
 }
 
