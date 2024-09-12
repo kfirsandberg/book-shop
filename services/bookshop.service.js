@@ -17,6 +17,18 @@ var gBooks = [{
 },]
 
 function getBooks(filterBy) {      
-    if (!filterBy) return gBooks
+    // if (!filterBy) return gBooks
     return gBooks
+}
+
+function removeBook(bookId){
+    const idx = gBooks.findIndex(book => book.id === bookId)
+    gBooks.splice(idx, 1)
+    
+}
+
+function updatePrice(price, bookId){
+    const idx = gBooks.findIndex(book => book.id === bookId)
+    gBooks[idx].price = price
+
 }

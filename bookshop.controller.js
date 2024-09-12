@@ -1,5 +1,5 @@
 'use strict'
-var gFilterBy = ''
+// var gFilterBy = ''
 
 function init() {
     renderBooks()
@@ -7,26 +7,33 @@ function init() {
 
 function renderBooks() {
     const elBooksTable = document.querySelector('.table-body')
-    const books = getBooks(gFilterBy)
-    console.log(books)
-    console.log(books)
+    const books = getBooks()
     const strHtmls = books.map(book => `
         <tr>
                 <td>${book.title}</td>
                 <td>${book.price}</td>
                 <td>
-                    <button>read</button>
+                    <button >read</button>
                 </td>
                 <td>
-                    <button>update</button>
+                    <button onclick= "onUpdateBook(this,'${book.id}')">update</button>
                 </td>
                 <td>
-                    <button>delete</button>
+                    <button onclick= "onRemoveBook(this,'${book.id}')" >delete</button>
                 </td>
             </tr>
         `)
-
     elBooksTable.innerHTML = strHtmls.join('')
+}
 
+function onRemoveBook(ev,idx){
+    removeBook(idx)
+    renderBooks()
+}
+
+function onUpdateBook(ev,idx){
+    var newPrice= prompt('what is your new price?')
+    updatePrice(newPrice,idx)
+    renderBooks()
 
 }
