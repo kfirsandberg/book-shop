@@ -47,3 +47,9 @@ function makeNewBook(title,price){
     }
 }
 
+function getBookDetails(bookId){
+    var book = gBooks.find(book => book.id === bookId)
+    book = JSON.stringify(book,null,2)
+    return book
+}
+

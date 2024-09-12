@@ -13,7 +13,7 @@ function renderBooks() {
                 <td>${book.title}</td>
                 <td>${book.price}</td>
                 <td>
-                    <button onclick= "bookDetails(this,'${book.id}' >read</button>
+                    <button onclick= "onReadBook(this,'${book.id}')" >read</button>
                 </td>
                 <td>
                     <button onclick= "onUpdateBook(this,'${book.id}')">update</button>
@@ -43,6 +43,12 @@ function onAddBook(){
     renderBooks()
 
 }
-function bookDetails(ev,idx){
-    
+function onReadBook(ev,idx){
+    const book = getBookDetails(idx)
+    const elBookDetails = document.querySelector('.book-details')
+    elBookDetails.innerText = book
+    const elModal = document.querySelector('.details-modal')
+    elModal.style.display = 'flex'
+
+
 }
