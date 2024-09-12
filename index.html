@@ -10,6 +10,7 @@
 </head>
 
 <body onload="init()">
+    <h1>welcome to the book shop!</h1>
     <table class="books-table">
         <thead>
             <tr>
@@ -22,15 +23,19 @@
 
         </tbody>
     </table>
+
     <button onclick="onAddBook()">add book</button>
-    <div class="details-modal">
-            <pre class="book-details"> 
-            </pre>
-            <button class="x-button">x</button>
-    </div>
+
+    <dialog class="details-modal">
+        <form method="dialog">
+            <pre></pre>
+            <button>x</button>
+            </form>
+    </dialog>
     <script src="services/util.service.js"></script>
     <script src="services/storage.service.js"></script>
     <script src="services/bookshop.service.js"></script>
     <script src="bookshop.controller.js"></script>
 </body>
+
 </html>

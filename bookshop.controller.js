@@ -13,14 +13,9 @@ function renderBooks() {
                 <td>${book.title}</td>
                 <td>${book.price}</td>
                 <td>
-                    <button onclick= "onReadBook(this,'${book.id}')" >read</button>
-                </td>
-                <td>
-                    <button onclick= "onUpdateBook(this,'${book.id}')">update</button>
-                </td>
-                <td>
-                    <button onclick= "onRemoveBook(this,'${book.id}')" >delete</button>
-                </td>
+                    <button onclick= "onReadBook(event,'${book.id}')" >read</button>
+                    <button onclick= "onUpdateBook(event,'${book.id}')">update</button>
+                    <button onclick= "onRemoveBook(event,'${book.id}')" >delete</button>
             </tr>
         `)
     elBooksTable.innerHTML = strHtmls.join('')
@@ -44,11 +39,12 @@ function onAddBook(){
 
 }
 function onReadBook(ev,idx){
+    ev.stopPropagation()
     const book = getBookDetails(idx)
-    const elBookDetails = document.querySelector('.book-details')
-    elBookDetails.innerText = book
     const elModal = document.querySelector('.details-modal')
-    elModal.style.display = 'flex'
+    const elDetails = elModal.querySelector('pre')
+    elDetails.innerText = book
+    elModal.showModal()
 
 
 }
