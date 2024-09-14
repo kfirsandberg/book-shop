@@ -20,7 +20,8 @@ function renderBooks(filterBooks) {
             </tr>
         `)
     elBooksTable.innerHTML = strHtmls.join('')
-}
+    statisticsFooter(books)
+}   
 
 function onRemoveBook(ev, idx) {
     ev.stopPropagation()
@@ -72,5 +73,21 @@ elInput.addEventListener('input', (event) => {
         return
     }
     const filterBooks = searchResult(inputValue)
-    renderBooks(filterBooks)
+    if (filterBooks)    renderBooks(filterBooks)
+    if(filterBooks.length=== 0) {
+        const strHtmls = '<td>no matching books where found...</td>'
+        document.querySelector('.table-body').innerHTML = strHtmls
+    }
 });
+
+function statisticsFooter(books){
+    var expensive =0
+    var average =0
+    var cheap =0
+    books.forEach(book => {
+        if (book.price>200)expensive++
+        else if (book.price>80)average++
+        if (book.price<80)cheap++
+    });
+    document.querySelector('footer').innerText=`we have ${expensive} expensive books, ${average} average books and ${cheap} books`
+}
