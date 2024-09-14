@@ -32,6 +32,13 @@ function getBookDetails(bookId) {
     book = JSON.stringify(book, null, 2)
     return book
 }
+function searchResult(value) {
+    const filterBooks =gBooks.filter(book => {
+        return book.title.toLowerCase().includes(value.toLowerCase())
+    })
+    return filterBooks
+
+}
 
 function _createNewBook(title, price) {
     return {

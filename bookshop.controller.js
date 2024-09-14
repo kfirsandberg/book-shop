@@ -5,9 +5,10 @@ function init() {
     renderBooks()
 }
 
-function renderBooks() {
+function renderBooks(filterBooks) {
     const elBooksTable = document.querySelector('.table-body')
-    const books = getBooks()
+    if (filterBooks) var books = filterBooks
+    else books = getBooks()
     const strHtmls = books.map(book => `
         <tr>
                 <td>${book.title}</td>
@@ -22,29 +23,54 @@ function renderBooks() {
 }
 
 function onRemoveBook(ev, idx) {
+    ev.stopPropagation()
     removeBook(idx)
+    successMessage('the book successfully removed')
     renderBooks()
 }
 
 function onUpdateBook(ev, idx) {
+    ev.stopPropagation()
     var newPrice = prompt('what is your new price?')
     updatePrice(newPrice, idx)
+    successMessage('the book successfully updated')
     renderBooks()
 }
-function onAddBook(){
+function onAddBook() {
     var newBookTitle = prompt('what is new book title?')
+    if (!newBookTitle) return
     var newBookPrice = prompt('what is new book price?')
-    addNewBook(newBookTitle,newBookPrice)
+    if (!newBookPrice) return
+
+    addNewBook(newBookTitle, newBookPrice)
+    successMessage('the book successfully added')
+
     renderBooks()
 
 }
-function onReadBook(ev,idx){
+function onReadBook(ev, idx) {
     ev.stopPropagation()
     const book = getBookDetails(idx)
     const elModal = document.querySelector('.details-modal')
     const elDetails = elModal.querySelector('pre')
     elDetails.innerText = book
     elModal.showModal()
-
-
 }
+function successMessage(text) {
+    const elModal = document.querySelector('.action-dialog')
+    const elDetails = elModal.querySelector('pre')
+    elDetails.innerText = text
+    elModal.showModal()
+    setTimeout(() => { elModal.close() }, 2000);
+}
+
+const elInput = document.getElementById('bookSearch')
+elInput.addEventListener('input', (event) => {
+    const inputValue = event.target.value
+    if (inputValue === '') {
+        renderBooks()
+        return
+    }
+    const filterBooks = searchResult(inputValue)
+    renderBooks(filterBooks)
+});

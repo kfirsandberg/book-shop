@@ -11,6 +11,8 @@
 
 <body onload="init()">
     <h1>welcome to the book shop!</h1>
+    <label for="bookSearch">enter book name</label>
+    <input type="text" id="bookSearch"> 
     <table class="books-table">
         <thead>
             <tr>
@@ -30,6 +32,12 @@
         <form method="dialog">
             <pre></pre>
             <button>x</button>
+            </form>
+    </dialog>
+    
+    <dialog class="action-dialog">
+        <form method="dialog">
+            <pre></pre>
             </form>
     </dialog>
     <script src="services/util.service.js"></script>
