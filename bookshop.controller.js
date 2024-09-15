@@ -5,10 +5,15 @@ function init() {
     renderBooks()
 }
 
+const gQueryOptions = {
+    filterBy: { txt: '', rating: 0 },
+    sortBy: {},
+    page: { idx: 0, size: 5 },
+}
+
 function renderBooks(filterBooks) {
     const elBooksTable = document.querySelector('.table-body')
-    if (filterBooks) var books = filterBooks
-    else books = getBooks()
+    var books = getBooks(gQueryOptions)
     const strHtmls = books.map(book => `
         <tr>
                 <td>${book.title}</td>
@@ -22,7 +27,14 @@ function renderBooks(filterBooks) {
             </tr>
         `)
     elBooksTable.innerHTML = strHtmls.join('')
+    if (books.length === 0) {
+        const strHtmls = '<td>no matching books where found...</td>'
+        document.querySelector('.table-body').innerHTML = strHtmls
+
+    }
     statisticsFooter(books)
+    setQueryParams()
+
 }
 
 function onRemoveBook(ev, idx) {
@@ -44,7 +56,10 @@ function onAddBook() {
     if (!newBookTitle) return
     var newBookPrice = prompt('what is new book price?')
     if (!newBookPrice) return
-    addNewBook(newBookTitle, newBookPrice)
+    var newBookRating = prompt('what is new book rating?')
+    if (newBookRating > 6) return
+    if (!newBookRating) return
+    addNewBook(newBookTitle, newBookPrice, newBookRating)
     successMessage('the book successfully added')
     renderBooks()
 
@@ -65,21 +80,6 @@ function successMessage(text) {
     setTimeout(() => { elModal.close() }, 2000);
 }
 
-const elInput = document.getElementById('bookSearch')
-elInput.addEventListener('input', (event) => {
-    const inputValue = event.target.value
-    if (inputValue === '') {
-        renderBooks()
-        return
-    }
-    const filterBooks = searchResult(inputValue)
-    if (filterBooks) renderBooks(filterBooks)
-    if (filterBooks.length === 0) {
-        const strHtmls = '<td>no matching books where found...</td>'
-        document.querySelector('.table-body').innerHTML = strHtmls
-    }
-});
-
 function statisticsFooter(books) {
     var expensive = 0
     var average = 0
@@ -90,4 +90,62 @@ function statisticsFooter(books) {
         if (book.price < 80) cheap++
     });
     document.querySelector('footer').innerText = `we have ${expensive} expensive books, ${average} average books and ${cheap} cheap books`
+}
+
+function onSetFilterBy() {
+    const elBooks = document.querySelector('.filter-by .bookSearch')
+    gQueryOptions.filterBy.txt = elBooks.value
+    gQueryOptions.page.idx = 0
+    renderBooks()
+}
+function onSetRatingBy() {
+    const elRating = document.querySelector('.sort-by .rating-field')
+    gQueryOptions.filterBy.rating = elRating.value
+    renderBooks()
+}
+
+
+function onSetSortBy() {
+    const elSortField = document.querySelector('.sort-by .sort-field')
+    const elSortDir = document.querySelector('.sort-by .sort-dir')
+    gQueryOptions.sortBy.sortField = elSortField.value
+    gQueryOptions.sortBy.sortDir = elSortDir.checked ? -1 : 1
+    gQueryOptions.page.idx = 0
+    renderBooks()
+}
+
+function setQueryParams() {
+    const queryParams = new URLSearchParams()
+
+    queryParams.set('book', gQueryOptions.filterBy.txt)
+    queryParams.set('minRanting', gQueryOptions.filterBy.rating)
+    if (gQueryOptions.sortBy.sortField) {
+        queryParams.set('sortField', gQueryOptions.sortBy.sortField)
+        queryParams.set('sortDir', gQueryOptions.sortBy.sortDir)
+    }
+    if (gQueryOptions.page) {
+        queryParams.set('pageIdx', gQueryOptions.page.idx)
+        queryParams.set('pageSize', gQueryOptions.page.size)
+    }
+    const newUrl =
+        window.location.protocol + "//" +
+        window.location.host +
+        window.location.pathname + '?' + queryParams.toString()
+
+    window.history.pushState({ path: newUrl }, '', newUrl)
+}
+
+function onNextPage() {
+    const lastPageIdx = getLastPageIdx(gQueryOptions.filterBy, gQueryOptions.page.size)
+    // console.log(lastPageIdx)
+    // console.log(gQueryOptions.page.idx)
+
+    if(gQueryOptions.page.idx < lastPageIdx){
+        gQueryOptions.page.idx++
+    } else {
+        gQueryOptions.page.idx = 0
+    }
+    // console.log(gQueryOptions.page.idx)
+// 
+    renderBooks()
 }

@@ -12,7 +12,27 @@
 <body onload="init()">
     <h1>welcome to the book shop!</h1>
     <label for="bookSearch">enter book name</label>
-    <input type="text" id="bookSearch"> 
+    <div class="sort-by">
+        <select class="sort-field" onchange="onSetSortBy()">
+            <option value="">Select Sorting</option>
+            <option value="title">By title</option>
+            <option value="min-rating">By min rating</option>
+        </select>
+        <select class="rating-field" onchange="onSetRatingBy()">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+        <span>direction</span>
+        <input class="sort-dir" type="checkbox" oninput="onSetSortBy()" />
+
+    </div>
+    <div class="filter-by">
+        <input  id="bookSearch" class="bookSearch" oninput="onSetFilterBy()" placeholder="Search for a book" type="text">
+    </div>
     <table class="books-table">
         <thead>
             <tr>
@@ -40,6 +60,8 @@
             <pre></pre>
             </form>
     </dialog>
+    <button title="Next Page" onclick="onNextPage()">Next Page</button>
+
     <footer></footer>
     <script src="services/util.service.js"></script>
     <script src="services/storage.service.js"></script>
