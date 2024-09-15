@@ -33,18 +33,18 @@ function getBookDetails(bookId) {
     return book
 }
 function searchResult(value) {
-    const filterBooks =gBooks.filter(book => {
+    const filterBooks = gBooks.filter(book => {
         return book.title.toLowerCase().includes(value.toLowerCase())
     })
     return filterBooks
-
 }
 
-function _createNewBook(title, price) {
+function _createNewBook(title, price,rating) {
     return {
         id: makeid(),
         title,
         price,
+        rating,
         imgUrl: 'lori-ipsi.jpg'
     }
 }
@@ -54,9 +54,9 @@ function _createBooks() {
     gBooks = loadFromStorage(BOOKSHOP_KEY)
     if (gBooks && gBooks.length !== 0) return
     gBooks = []
-    gBooks.push(_createNewBook('The adventures of Lori Ipsi', 300))
-    gBooks.push(_createNewBook('Zobra The Geek', 87))
-    gBooks.push(_createNewBook('World Atlas', 120))
+    gBooks.push(_createNewBook('The adventures of Lori Ipsi', 300,3))
+    gBooks.push(_createNewBook('Zobra The Geek', 87,4))
+    gBooks.push(_createNewBook('World Atlas', 120,5))
     _saveBooks()
 }
 
